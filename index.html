@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./node_modules/pingpp-js/dist/pingpp.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+
+    <script>
+    	// 调起支付的方法
+    	function pay(){
+    		$.get("http://127.0.0.1:3000/pingpay", function(data){
+    			var charge = data;
+	    		pingpp.createPayment(charge, function(result, err){
+				    console.log(result);
+				    console.log(err.msg);
+				    console.log(err.extra);
+				    if (result == "success") {
+				        // 只有微信公众账号 wx_pub 支付成功的结果会在这里返回，其他的支付结果都会跳转到 extra 中对应的 URL。
+				    } else if (result == "fail") {
+				        // charge 不正确或者微信公众账号支付失败时会在此处返回
+				    } else if (result == "cancel") {
+				        // 微信公众账号支付取消支付
+				    }
+				});
+    		});
+    	}
+    </script>
+</head>
+<body>
+	<button onclick="pay()">支付</button>
+</body>
+</html>
